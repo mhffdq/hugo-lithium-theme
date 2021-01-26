@@ -1,0 +1,76 @@
+{{ partial "header.html" . }}
+
+<main class="content" role="main">
+
+  <article class="article">
+    {{ if eq .Section "post" }}
+      <h1 class="article-title">{{ .Title }}</h1>
+    {{ end }}
+
+    {{ if eq .Section "post" }}
+      <span class="article-date">{{ .Date.Format "January 2, 2006" }}</span>
+      <span class="article-duration">{{ .ReadingTime }} min read</span>
+    {{ end }}
+
+    {{ if eq .Section "post" }}
+      {{ with .Params.categories }}
+        <ul class="cp_tag01 article-categories">
+          Categories:
+          {{ range . }}
+            <li><a href="/categories/{{ . }}/">{{ . }}</a></li>
+          {{ end }}
+        </ul>
+      {{ end }}
+
+      {{ with .Params.tags }}
+        <ul class="cp_tag01 article-tags">
+          Tags:
+          {{ range . }}
+            <li><a href="/tags/{{ . }}/">{{ . }}</a></li>
+          {{ end }}
+        </ul>
+      {{ end }}
+    {{ end }}
+
+    <div class="article-content">
+      <!-- TL;DR -->
+      {{ with .Params.tldr }}
+        <h2>TL; DR</h2>
+        <ul>
+        {{ range $item := . }}
+          <li>{{ $item }}</li>
+        {{ end }}
+        </ul>
+      {{ end }}
+
+      <!-- thumbnail -->
+      {{ if eq .Params.thumbnail true }}
+        {{ with .Params.images }}
+          <div class="thumnail">
+            <a href="{{ index . 0 }}" class="dont-hightlight">
+              <img src="{{ index . 0 }}" width="90%" alt="overview">
+            </a>
+          </div>
+        {{ end }}
+      {{ end }}
+
+      <!-- Table of Contents -->
+      {{ if eq .Params.toc true }}
+        <aside class="x-toc">
+          <div class="x-toc-title">目次</div>
+          {{ .TableOfContents }}
+        </aside>
+      {{ end }}
+
+      <!-- Main sentences -->
+      {{ .Content }}
+    </div>
+  </article>
+
+  {{ template "_internal/disqus.html" . }}
+
+  {{ partial "related.html" . }}
+
+</main>
+
+{{ partial "footer.html" . }}

@@ -1,0 +1,29 @@
+{{ partial "header.html" . }}
+
+<main class="content article-content list-content" role="main">
+
+  {{ if eq .Title "Tags"}}
+      <h2 clas="archive-title">Tags</h2>
+
+      {{ if lt 0 (len .Site.Taxonomies.tags) }}
+      <ul>
+          {{ range .Site.Taxonomies.tags.ByCount }}
+          <li><a href="{{ $.Site.BaseURL | relURL }}tags/{{ .Name | urlize }}">{{ .Name }}<span>({{ .Count }})</span></a></li>
+          {{ end }}
+      </ul>
+      {{ end }}
+
+      <h2 clas="archive-title">Categories</h2>
+      {{ if lt 0 (len .Site.Taxonomies.categories) }}
+      <ul>
+          {{ range .Site.Taxonomies.categories.ByCount }}
+          <li><a href="{{ $.Site.BaseURL | relURL }}categories/{{ .Name | urlize }}">{{ .Name }}<span>({{ .Count }})</span></a></li>
+          {{ end }}
+      </ul>
+      {{ end }}
+  {{ else if eq .Title "Categories"}}
+  {{ end }}
+
+</main>
+
+{{ partial "footer.html" . }}
